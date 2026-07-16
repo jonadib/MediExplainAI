@@ -162,46 +162,6 @@ Format the output strictly as a JSON object matching the requested schema.
   }
 });
 
-// API: Convert text to speech using gemini-3.1-flash-tts-preview
-app.post("/api/tts", async (req, res) => {
-  try {
-    const { text, voice = "Kore" } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: "Missing text for speech synthesis." });
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: "Gemini API key is not configured on the server." });
-    }
-
-    // Call Gemini TTS model
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-tts-preview",
-      contents: [{ parts: [{ text: `Read this medical report explanation text clearly: ${text}` }] }],
-      config: {
-        responseModalities: [Modality.AUDIO],
-        speechConfig: {
-          voiceConfig: {
-            // Voices: 'Puck', 'Charon', 'Kore', 'Fenrir', 'Zephyr'
-            prebuiltVoiceConfig: { voiceName: voice },
-          },
-        },
-      },
-    });
-
-    const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (base64Audio) {
-      res.json({ audio: base64Audio });
-    } else {
-      res.status(500).json({ error: "TTS model did not return audio data." });
-    }
-
-  } catch (error: any) {
-    console.error("TTS Error:", error);
-    res.status(500).json({ error: error.message || "Failed to generate speech." });
-  }
-});
 
 // Main async start function to boot Express & Vite Dev server
 async function startServer() {

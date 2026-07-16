@@ -4,13 +4,11 @@ import { Sparkles, ArrowRight, Shield, Play, Activity, Heart, Eye } from "lucide
 interface LandingHeroProps {
   language: "en" | "bn";
   onUploadClick: () => void;
-  onSeeDemoClick: () => void;
 }
 
 export default function LandingHero({
   language,
   onUploadClick,
-  onSeeDemoClick,
 }: LandingHeroProps) {
   return (
     <section id="hero" className="relative overflow-hidden py-12 md:py-20 lg:py-24">
@@ -76,14 +74,6 @@ export default function LandingHero({
               >
                 {language === "en" ? "Upload Report" : "রিপোর্ট আপলোড করুন"}
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </button>
-
-              <button
-                onClick={onSeeDemoClick}
-                className="inline-flex items-center justify-center gap-2.5 rounded-full border border-slate-200 bg-white px-8 py-4.5 text-base font-extrabold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 active:scale-[0.98] transition-all duration-200 shadow-sm cursor-pointer"
-              >
-                <Play className="h-4.5 w-4.5 fill-current text-slate-500 dark:text-slate-400" />
-                {language === "en" ? "See Demo" : "ডেমো দেখুন"}
               </button>
             </div>
 

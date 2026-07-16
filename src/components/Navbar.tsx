@@ -30,9 +30,9 @@ export default function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full px-4 pt-4 pb-2 transition-all duration-300 print:hidden">
+    <header className="sticky top-0 z-50 w-full px-4 pt-4 pb-2 transition-colors duration-300 print:hidden">
       <div
-        className={`mx-auto max-w-7xl transition-all duration-300 rounded-[28px] border ${
+        className={`mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 rounded-[28px] border ${
           scrolled
             ? "border-slate-200/80 bg-white/80 shadow-md backdrop-blur-lg dark:border-slate-800/90 dark:bg-slate-950/80"
             : "border-slate-200/40 bg-white/60 shadow-sm backdrop-blur-md dark:border-slate-800/40 dark:bg-slate-950/60"
@@ -114,7 +114,7 @@ export default function Navbar({
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-850 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-850 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors duration-200 cursor-pointer"
               aria-label="Toggle Dark Mode"
             >
               {darkMode ? <Sun className="h-4.5 w-4.5 text-amber-400" /> : <Moon className="h-4.5 w-4.5 text-blue-500" />}
@@ -123,7 +123,7 @@ export default function Navbar({
             {/* Primary CTA Button */}
             <button
               onClick={onUploadClick}
-              className="rounded-full bg-blue-600 px-5.5 py-2.5 text-xs font-extrabold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 hover:shadow-lg transition-all duration-200 cursor-pointer"
+              className="rounded-full bg-blue-600 px-5.5 py-2.5 text-xs font-extrabold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 hover:shadow-lg transition-colors duration-200 cursor-pointer"
             >
               {language === "en" ? "Upload Report" : "রিপোর্ট আপলোড করুন"}
             </button>

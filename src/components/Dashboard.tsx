@@ -1,8 +1,6 @@
 import React from "react";
 import {
   ArrowLeft,
-  Volume2,
-  VolumeX,
   Copy,
   Printer,
   Share2,
@@ -29,163 +27,7 @@ export default function Dashboard({ data, language, onBack }: DashboardProps) {
   const [copied, setCopied] = React.useState(false);
   const [checkedQuestions, setCheckedQuestions] = React.useState<Record<number, boolean>>({});
   const [expandedTerm, setExpandedTerm] = React.useState<Record<number, boolean>>({});
-  const [isSpeaking, setIsSpeaking] = React.useState(false);
-  const [activeSpeech, setActiveSpeech] = React.useState<{ source: any; audioCtx: any } | null>(null);
   const [showShareModal, setShowShareModal] = React.useState(false);
-
-  const activeSpeechRef = React.useRef<{ source: any; audioCtx: any } | null>(null);
-  React.useEffect(() => {
-    activeSpeechRef.current = activeSpeech;
-  }, [activeSpeech]);
-
-  React.useEffect(() => {
-    return () => {
-      try {
-        window.speechSynthesis.cancel();
-      } catch (e) {}
-      const active = activeSpeechRef.current;
-      if (active) {
-        try {
-          if (active.source && typeof active.source.stop === 'function') {
-            active.source.stop();
-          }
-        } catch (e) {}
-        try {
-          if (active.audioCtx && active.audioCtx.state !== 'closed') {
-            active.audioCtx.close();
-          }
-        } catch (e) {}
-      }
-    };
-  }, []);
-
-  const speakWithBrowserTTS = (text: string, lang: "en" | "bn") => {
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang === "bn" ? "bn-BD" : "en-US";
-      
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const matchingVoice = voices.find(v => v.lang.startsWith(lang === "bn" ? "bn" : "en"));
-        if (matchingVoice) {
-          utterance.voice = matchingVoice;
-        }
-      }
-      
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        setActiveSpeech(null);
-      };
-      utterance.onerror = (e) => {
-        console.error("Browser SpeechSynthesis error:", e);
-        setIsSpeaking(false);
-        setActiveSpeech(null);
-      };
-      
-      setIsSpeaking(true);
-      setActiveSpeech({ source: { stop: () => window.speechSynthesis.cancel() }, audioCtx: null });
-      window.speechSynthesis.speak(utterance);
-    } catch (e) {
-      console.error("Browser SpeechSynthesis failed:", e);
-      setIsSpeaking(false);
-      setActiveSpeech(null);
-    }
-  };
-
-  // Client-side playback for 24kHz raw PCM little-endian audio returned by Gemini TTS
-  const playPCM24kHz = (base64Data: string) => {
-    try {
-      const binaryString = window.atob(base64Data);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      const buffer = bytes.buffer;
-      const int16Array = new Int16Array(buffer);
-      
-      const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
-      const audioCtx = new AudioCtxClass({ sampleRate: 24000 });
-      
-      const audioBuffer = audioCtx.createBuffer(1, int16Array.length, 24000);
-      const channelData = audioBuffer.getChannelData(0);
-      
-      // Convert Int16 PCM to Float32 [-1.0, 1.0] for standard Web Audio
-      for (let i = 0; i < int16Array.length; i++) {
-        channelData[i] = int16Array[i] / 32768.0;
-      }
-      
-      const source = audioCtx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(audioCtx.destination);
-      
-      source.onended = () => {
-        setIsSpeaking(false);
-        setActiveSpeech(null);
-      };
-
-      source.start(0);
-      setActiveSpeech({ source, audioCtx });
-      setIsSpeaking(true);
-    } catch (err) {
-      console.error("Audio playback error:", err);
-      // Fallback to browser SpeechSynthesis on play failure
-      speakWithBrowserTTS(`${data.summary}`, language);
-    }
-  };
-
-  const handleSpeak = async () => {
-    if (isSpeaking && activeSpeech) {
-      // Stop current speech
-      try {
-        if (activeSpeech.source && typeof activeSpeech.source.stop === 'function') {
-          activeSpeech.source.stop();
-        }
-      } catch (e) {}
-      try {
-        if (activeSpeech.audioCtx && activeSpeech.audioCtx.state !== 'closed') {
-          activeSpeech.audioCtx.close();
-        }
-      } catch (e) {}
-      try {
-        window.speechSynthesis.cancel();
-      } catch (e) {}
-      setIsSpeaking(false);
-      setActiveSpeech(null);
-      return;
-    }
-
-    setIsSpeaking(true);
-    const textToSpeak = `${data.summary}`;
-
-    try {
-      const response = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: textToSpeak,
-          voice: language === "bn" ? "Zephyr" : "Kore", // Pick suitable voices
-        }),
-      });
-
-      if (!response.ok) {
-        const errJson = await response.json().catch(() => ({}));
-        throw new Error(errJson.error || `HTTP ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.audio) {
-        playPCM24kHz(result.audio);
-      } else {
-        throw new Error("No audio returned");
-      }
-    } catch (err) {
-      console.warn("Gemini TTS Failed, falling back to Browser SpeechSynthesis:", err);
-      speakWithBrowserTTS(textToSpeak, language);
-    }
-  };
 
   const handleCopy = () => {
     const formattedText = `
@@ -254,18 +96,6 @@ ${data.disclaimer}
   const statusMeta = getStatusMeta();
   const StatusIcon = statusMeta.icon;
 
-  React.useEffect(() => {
-    // Cleanup audio on unmount
-    return () => {
-      if (activeSpeech) {
-        try {
-          activeSpeech.source.stop();
-          activeSpeech.audioCtx.close();
-        } catch (e) {}
-      }
-    };
-  }, [activeSpeech]);
-
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 print:p-0">
       
@@ -280,25 +110,6 @@ ${data.disclaimer}
         </button>
 
         <div className="flex flex-wrap items-center gap-3">
-          {/* Hear overall summary (TTS) */}
-          <button
-            onClick={handleSpeak}
-            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold transition-all border ${
-              isSpeaking
-                ? "bg-red-50 border-red-200 text-red-600 dark:bg-red-950/20 dark:border-red-900 dark:text-red-400"
-                : "bg-blue-50 border-blue-100 text-[#2563EB] hover:bg-blue-100 dark:bg-blue-950/20 dark:border-blue-900/40 dark:text-blue-400"
-            }`}
-          >
-            {isSpeaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-            {isSpeaking
-              ? language === "en"
-                ? "Stop Reading"
-                : "পড়া বন্ধ করুন"
-              : language === "en"
-              ? "Listen to Summary"
-              : "সামারি শুনুন"}
-          </button>
-
           {/* Copy */}
           <button
             onClick={handleCopy}

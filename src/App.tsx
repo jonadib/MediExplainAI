@@ -8,9 +8,8 @@ import FAQ from "./components/FAQ";
 import Uploader from "./components/Uploader";
 import LoadingScreen from "./components/LoadingScreen";
 import Dashboard from "./components/Dashboard";
-import { sampleResultEn, sampleResultBn } from "./data";
 import { UploadedFile, AnalysisResult } from "./types";
-import { Sparkles, AlertTriangle, ShieldCheck, HeartPulse } from "lucide-react";
+import { AlertTriangle, HeartPulse } from "lucide-react";
 
 export default function App() {
   const [darkMode, setDarkMode] = React.useState<boolean>(() => {
@@ -45,24 +44,6 @@ export default function App() {
 
   const handleUploadClick = () => {
     handleScrollTo("upload-section");
-  };
-
-  const handleSeeDemo = () => {
-    setLoading(true);
-    setErrorMsg(null);
-    setResult(null);
-
-    // Simulate clinical analysis timeline for the demo data
-    setTimeout(() => {
-      const demoData = language === "en" ? sampleResultEn : sampleResultBn;
-      setResult(demoData);
-      setLoading(false);
-      
-      // Smooth scroll to results if already present
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100);
-    }, 5500);
   };
 
   const handleAnalyzeFile = async () => {
@@ -147,7 +128,6 @@ export default function App() {
           <LandingHero
             language={language}
             onUploadClick={handleUploadClick}
-            onSeeDemoClick={handleSeeDemo}
           />
 
           {/* Process Walkthrough */}
@@ -187,7 +167,7 @@ export default function App() {
           )}
 
           {/* Core Support / Clinical Policy Banner */}
-          <div className="mx-auto max-w-4xl px-4 mt-8">
+          <div id="disclaimer" className="mx-auto max-w-4xl px-4 mt-8">
             <div className="rounded-[24px] border border-[#E2E8F0] bg-white p-6 dark:border-slate-800/50 dark:bg-slate-900/50 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-sm">
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/30 text-[#2563EB] dark:text-blue-400">
                 <HeartPulse className="h-6 w-6" />
