@@ -52,8 +52,8 @@ export default function Navbar({
             >
               <defs>
                 <linearGradient id="iconBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0F6B65"/>
-                  <stop offset="100%" stopColor="#0B5450"/>
+                  <stop offset="0%" stopColor="#3D5AFE"/>
+                  <stop offset="100%" stopColor="#2544E0"/>
                 </linearGradient>
               </defs>
              
@@ -72,21 +72,21 @@ export default function Navbar({
                     strokeLinecap="round" strokeLinejoin="round"/>
              
               {/* AI node cluster continuing the line */}
-              <line x1="128" y1="100" x2="150" y2="80" stroke="#F2A65A" strokeWidth="6" strokeLinecap="round"/>
-              <line x1="128" y1="100" x2="150" y2="120" stroke="#F2A65A" strokeWidth="6" strokeLinecap="round"/>
-              <circle cx="128" cy="100" r="8" fill="#F2A65A"/>
-              <circle cx="150" cy="80" r="6" fill="#F2A65A"/>
-              <circle cx="150" cy="120" r="6" fill="#F2A65A"/>
+              <line x1="128" y1="100" x2="150" y2="80" stroke="#BFCCFF" strokeWidth="6" strokeLinecap="round"/>
+              <line x1="128" y1="100" x2="150" y2="120" stroke="#BFCCFF" strokeWidth="6" strokeLinecap="round"/>
+              <circle cx="128" cy="100" r="8" fill="#FFFFFF"/>
+              <circle cx="150" cy="80" r="6" fill="#BFCCFF"/>
+              <circle cx="150" cy="120" r="6" fill="#BFCCFF"/>
              
               {/* WORDMARK */}
-              <text x="200" y="122" fontFamily="Helvetica, Arial, sans-serif" fontWeight="700" fontSize="58" letterSpacing="-1">
-                <tspan className="fill-[#16324F] dark:fill-white">Medi</tspan>
-                <tspan fill="#0F6B65">Explain</tspan>
-                <tspan fill="#F2A65A">AI</tspan>
+              <text x="200" y="122" fontFamily="Helvetica, Arial, sans-serif" fontWeight="800" fontSize="58" letterSpacing="-1">
+                <tspan className="fill-[#0F1626] dark:fill-white">Medi</tspan>
+                <tspan fill="#3D5AFE">Explain</tspan>
+                <tspan fill="#3D5AFE">AI</tspan>
               </text>
              
               {/* Tagline */}
-              <text x="203" y="152" fontFamily="Helvetica, Arial, sans-serif" fontWeight="500" fontSize="19" letterSpacing="2" className="fill-[#6B7C87] dark:fill-slate-400">
+              <text x="203" y="152" fontFamily="Helvetica, Arial, sans-serif" fontWeight="500" fontSize="19" letterSpacing="2" className="fill-[#6B7280] dark:fill-slate-400">
                 HEALTH ANSWERS, CLEARLY EXPLAINED
               </text>
             </svg>
