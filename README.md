@@ -115,6 +115,23 @@ This project was built for an AI hackathon using **Google AI Studio (Gemini API)
 
 ---
 
+## 🚀 Deployment Guide
+
+### Vercel Deployment (Recommended)
+This project is configured to run serverless functions on Vercel to keep your `GEMINI_API_KEY` secure:
+1. Push your code to a GitHub repository.
+2. Sign in to [Vercel](https://vercel.com) and click **Add New** -> **Project**.
+3. Import your GitHub repository.
+4. Vercel will automatically detect Vite. Keep the default build settings.
+5. Expand **Environment Variables** and add:
+   - `GEMINI_API_KEY`: `your_actual_gemini_api_key`
+6. Click **Deploy**.
+
+### GitHub Pages (Static-Only Limitation)
+GitHub Pages only hosts static frontend files and cannot run the backend Node/Express code (`server.ts`). Running API calls in the browser would expose your private `GEMINI_API_KEY` to the public. Therefore, **Vercel** (or Render/Heroku) is recommended so that the API key remains safe on the server side.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.
