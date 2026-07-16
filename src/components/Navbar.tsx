@@ -42,17 +42,54 @@ export default function Navbar({
           
           {/* Brand Logo */}
           <div
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center cursor-pointer group"
             onClick={() => onScrollTo("hero")}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-md shadow-blue-600/15 group-hover:scale-105 transition-all duration-200">
-              <Sparkles className="h-5 w-5 animate-pulse" />
-            </div>
-            <div>
-              <span className="font-sans text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                MediExplain<span className="text-blue-600 dark:text-blue-400">AI</span>
-              </span>
-            </div>
+            <svg 
+              viewBox="0 0 680 200" 
+              className="h-12 w-auto transition-transform duration-200 group-hover:scale-[1.02]"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="iconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0F6B65"/>
+                  <stop offset="100%" stopColor="#0B5450"/>
+                </linearGradient>
+              </defs>
+             
+              {/* ICON: rounded mark containing pulse line resolving into an AI node cluster */}
+              <rect x="10" y="20" width="160" height="160" rx="40" fill="url(#iconBg)"/>
+             
+              {/* pulse / EKG line */}
+              <path d="M 34 100
+                       L 60 100
+                       L 72 72
+                       L 86 128
+                       L 100 58
+                       L 114 100
+                       L 128 100"
+                    fill="none" stroke="#FFFFFF" strokeWidth="7"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+             
+              {/* AI node cluster continuing the line */}
+              <line x1="128" y1="100" x2="150" y2="80" stroke="#F2A65A" strokeWidth="6" strokeLinecap="round"/>
+              <line x1="128" y1="100" x2="150" y2="120" stroke="#F2A65A" strokeWidth="6" strokeLinecap="round"/>
+              <circle cx="128" cy="100" r="8" fill="#F2A65A"/>
+              <circle cx="150" cy="80" r="6" fill="#F2A65A"/>
+              <circle cx="150" cy="120" r="6" fill="#F2A65A"/>
+             
+              {/* WORDMARK */}
+              <text x="200" y="122" fontFamily="Helvetica, Arial, sans-serif" fontWeight="700" fontSize="58" letterSpacing="-1">
+                <tspan className="fill-[#16324F] dark:fill-white">Medi</tspan>
+                <tspan fill="#0F6B65">Explain</tspan>
+                <tspan fill="#F2A65A">AI</tspan>
+              </text>
+             
+              {/* Tagline */}
+              <text x="203" y="152" fontFamily="Helvetica, Arial, sans-serif" fontWeight="500" fontSize="19" letterSpacing="2" className="fill-[#6B7C87] dark:fill-slate-400">
+                HEALTH ANSWERS, CLEARLY EXPLAINED
+              </text>
+            </svg>
           </div>
 
           {/* Desktop Navigation Links */}
