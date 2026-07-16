@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  /* Print-specific style layout overrides to ensure pristine paper & PDF formatting */
+  @media print {
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    .print\:hidden {
+      display: none !important;
+    }
+    .print\:p-0 {
+      padding: 0 !important;
+    }
+    /* Don't split cards mid-page when printing */
+    .card, tr, .rounded-3xl, .rounded-2xl {
+      page-break-inside: avoid !important;
+    }
+  }
+
+  @keyframes scanner {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-scanner {
+    animation: scanner 4s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+  }
+}
+
