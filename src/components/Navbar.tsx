@@ -47,7 +47,7 @@ export default function Navbar({
           >
             <svg 
               viewBox="0 0 680 200" 
-              className="h-12 w-auto transition-transform duration-200 group-hover:scale-[1.02]"
+              className="h-16 w-auto transition-transform duration-200 group-hover:scale-[1.02]"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
@@ -79,7 +79,7 @@ export default function Navbar({
               <circle cx="150" cy="120" r="6" fill="#BFCCFF"/>
              
               {/* WORDMARK */}
-              <text x="200" y="122" fontFamily="Helvetica, Arial, sans-serif" fontWeight="800" fontSize="58" letterSpacing="-1">
+              <text x="200" y="126" fontFamily="Helvetica, Arial, sans-serif" fontWeight="800" fontSize="72" letterSpacing="-1">
                 <tspan className="fill-[#0F1626] dark:fill-white">Medi</tspan>
                 <tspan fill="#3D5AFE">Explain</tspan>
                 <tspan fill="#3D5AFE">AI</tspan>
